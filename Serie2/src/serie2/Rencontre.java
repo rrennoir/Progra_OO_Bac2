@@ -66,11 +66,7 @@ public class Rencontre
 
     public boolean exAequo()
     {
-        if (pointsLocaux == pointsVisiteurs)
-            return true;
-
-        else
-            return false;
+       return pointsLocaux == pointsVisiteurs;
     }
 
     public String presenterLocaux()
@@ -105,10 +101,10 @@ public class Rencontre
 
     public void ajouterPoints(String equipe)
     {
-        if (equipe == "L")
+        if (equipe != null && equipe.equals("L"))
             ajouterPointsLocaux();
         
-        else if (equipe == "V")
+        else if (equipe != null && equipe.equals("V"))
             ajouterPointsVisiteur();
     }
 
