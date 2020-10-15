@@ -5,29 +5,29 @@ public class Rectangle
     int hauteur;
     int largeur;
 
-    public Rectangle(int _hauteur, int _largeur)
+    public Rectangle(int hauteur, int largeur)
     {
-        hauteur = _hauteur;
-        largeur = _largeur;
+        this.hauteur = hauteur;
+        this.largeur = largeur;
     }
 
     public int perimetre()
     {
-        return (hauteur + largeur) * 2;
+        return (this.hauteur + this.largeur) * 2;
     }
 
     public int surface()
     {
-        return hauteur * largeur;
+        return this.hauteur * this.largeur;
     }
 
-    public void modifierHauteur(int newHauteur)
+    public void modifierHauteur(int hauteur)
     {
-        hauteur = newHauteur;
+        this.hauteur = hauteur;
     }
 
-    public void modifierLargeur(int newLargeur)
+    public void modifierLargeur(int largeur)
     {
-        largeur = newLargeur;
+        this.largeur = largeur;
     }   
 }

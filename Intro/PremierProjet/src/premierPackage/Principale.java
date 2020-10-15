@@ -4,7 +4,8 @@ public class Principale
 {
     public static void main(String[] args) throws Exception
     {
-        int x, y;
+        int x;
+        int y;
         String mot;
 
         x = 7;
