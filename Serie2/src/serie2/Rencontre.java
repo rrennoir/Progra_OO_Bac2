@@ -2,51 +2,32 @@ package serie2;
 
 public class Rencontre
 {
-    String nomLocaux;
-    String nomVisiteurs;
-    
+    Equipe locaux;
+    Equipe visiteur;
     int pointsLocaux;
     int pointsVisiteurs;
-    int nbFautesLocaux;
-    int nbFautesVisiteurs;
-
-    public Rencontre(String locaux, String visiteur, int pLocaux, int pVisiteurs, int fLocaux, int fVisiteur)
+    int fautesLocaux;
+    int fautesVisiteurs;
+    Arbitre juge;
+    
+    public Rencontre(Equipe locaux, Equipe visiteur, Arbitre juge)
     {
-        this.nomLocaux = locaux;
-        this.nomVisiteurs = visiteur;
-        this.pointsLocaux = pLocaux;
-        this.pointsVisiteurs = pVisiteurs;
-        this.nbFautesLocaux = fLocaux;
-        this.nbFautesVisiteurs = fVisiteur; 
-    }
-
-    public Rencontre(String locaux, String visiteur)
-    {
-        this.nomLocaux = locaux;
-        this.nomVisiteurs = visiteur;
+        this.locaux = locaux;
+        this.visiteur = visiteur;
         this.pointsLocaux = 0;
         this.pointsVisiteurs = 0;
-        this.nbFautesLocaux = 0;
-        this.nbFautesVisiteurs = 0; 
+        this.fautesLocaux = 0;
+        this.fautesVisiteurs = 0;
+        this.juge = juge;
     }
-
-    public Rencontre(String visiteur)
-    {
-        this.nomLocaux = "Les seigneurs du combat";
-        this.nomVisiteurs = visiteur;
-        this.pointsLocaux = 0;
-        this.pointsVisiteurs = 0;
-        this.nbFautesLocaux = 0;
-        this.nbFautesVisiteurs = 0; 
-    }    
 
     public String vainqueur()
     {
         if (this.pointsLocaux > this.pointsVisiteurs)
-            return this.nomLocaux;
+            return this.locaux.nom;
 
         else if (this.pointsVisiteurs > this.pointsLocaux)
-            return this.nomVisiteurs;
+            return this.visiteur.nom;
 
         else
             return "Ex aequo";
@@ -54,11 +35,11 @@ public class Rencontre
 
     public String equipeFairPlay()
     {
-        if (this.nbFautesLocaux < this.nbFautesVisiteurs)
-            return this.nomLocaux;
+        if (this.fautesLocaux < this.fautesVisiteurs)
+            return this.locaux.nom;
         
-        else if (this.nbFautesVisiteurs < this.nbFautesLocaux)
-            return this.nomVisiteurs;
+        else if (this.fautesVisiteurs < this.fautesLocaux)
+            return this.visiteur.nom;
 
         else
             return "Ex aequo";
@@ -71,12 +52,12 @@ public class Rencontre
 
     public String presenterLocaux()
     {
-        return "L'équipe locale " + this.nomLocaux;
+        return "L'équipe locale " + this.locaux.nom;
     }
 
     public String presenterVisiteur()
     {
-        return "L'équipe des visiteurs " + this.nomVisiteurs;
+        return "L'équipe des visiteurs " + this.visiteur.nom;
     }
 
     public void ajouterPointsLocaux()
@@ -110,12 +91,12 @@ public class Rencontre
 
     public void ajouterFauteLocaux()
     {
-        this.nbFautesLocaux++;
+        this.fautesLocaux++;
     }
 
     public void ajouterFauteVisiteur()
     {
-        this.nbFautesVisiteurs++;
+        this.fautesVisiteurs++;
     }
 
     public String presenterAdversaire()
@@ -123,8 +104,13 @@ public class Rencontre
         return String.format(" %s reçoit %s", this.presenterLocaux(), this.presenterVisiteur());
     }
 
+    // public String toString()
+    // {
+    //     return this.presenterAdversaire() + "\n" + this.vainqueur();
+    // }
+
     public String toString()
     {
-        return this.presenterAdversaire() + "\n" + this.vainqueur();
-    }    
+        return this.locaux + "\n" + this.visiteur + "\n" + this.juge;
+    }
 }
