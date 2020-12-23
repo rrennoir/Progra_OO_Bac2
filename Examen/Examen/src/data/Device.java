@@ -18,7 +18,7 @@ public class Device
     {
         String deviceID = brand + model + serialNumber;
 
-        if (exist(deviceID))
+        if (Device.deviceIDs.contains(deviceID))
             throw new DeviceAlreadyExist(brand, model, serialNumber);
         
         else
@@ -38,14 +38,5 @@ public class Device
         {
             this.isOn = true;
         }
-    }
-
-    private static boolean exist(String newId)
-    {
-        for (String id : Device.deviceIDs)
-            if (id.equals(newId))
-                return true;
-
-        return false;
     }
 }
