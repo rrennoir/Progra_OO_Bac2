@@ -26,6 +26,6 @@ public class MenuItem
 
 	public String getChoiceString()
 	{
-		return this.getMenuString().split(" ")[0];
+		return this.getMenuString().split(" ")[0].toLowerCase();
 	}
 }

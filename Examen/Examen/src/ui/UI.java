@@ -54,7 +54,7 @@ public class UI
 
 	public Action getNextAction() throws ActionNotFound
 	{
-		String choice = UI.scanner.next();
+		String choice = UI.scanner.next().toLowerCase();
 		return this.currentMenu.getAction(choice);
 	}
 
