@@ -1,15 +1,13 @@
 package data;
 
-import data.exception.DeviceAlreadyExist;
-
 public class Printer extends Device
 {
     int pagePrinted;
     int pageLeft;
 
-    public Printer(String brand, String model, String serialNumber, int power) throws DeviceAlreadyExist
+    public Printer(String brand, String model, String serialNumber, int power, Room location, Network net) throws DeviceAlreadyExist
     {
-        super(brand, model, serialNumber, power);
+        super(brand, model, serialNumber, power ,location, net);
         this.pagePrinted = 0;
         this.pageLeft = 0;
     }
@@ -26,8 +24,13 @@ public class Printer extends Device
 
     public void turnOn()
     {
-        super.turnOn();
+        super.switchPower(true);
 
         System.out.println("Test page");
+    }
+
+    public void turnOff()
+    {
+        super.switchPower(false);
     }
 }
