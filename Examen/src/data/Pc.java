@@ -1,17 +1,15 @@
 package data;
 
-import java.lang.Math;
-
-import data.exception.DeviceAlreadyExist; 
+import java.lang.Math; 
 
 public class Pc extends Device
 {
     Os os;
     int ram;
 
-    public Pc(String brand, String model, String serialNumber, int power, Os os, int ram) throws DeviceAlreadyExist
+    public Pc(String brand, String model, String serialNumber, int power, Os os, int ram, Room location, Network net) throws DeviceAlreadyExist
     {
-        super(brand, model, serialNumber, power);
+        super(brand, model, serialNumber, power, location, net);
 
         this.os = os;
 
@@ -27,7 +25,13 @@ public class Pc extends Device
 
     public void turnOn()
     {
-        super.turnOn();
+        super.switchPower(true);;
         System.out.println(String.format("%s: Welcome", os.name()));
+    }
+
+    public void turnOff()
+    {
+        super.switchPower(false);
+        System.out.println(String.format("%s: Goodbye", os.name()));
     }
 }
