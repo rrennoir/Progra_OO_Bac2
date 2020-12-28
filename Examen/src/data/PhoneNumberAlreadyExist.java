@@ -1,4 +1,4 @@
-package data.exception;
+package data;
 
 public class PhoneNumberAlreadyExist extends Exception
 {

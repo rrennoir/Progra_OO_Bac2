@@ -1,4 +1,4 @@
-package data.exception;
+package data;
 
 public class DeviceAlreadyExist extends Exception
 {
