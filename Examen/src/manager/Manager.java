@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import data.Data;
+import data.Network;
+import data.Pc;
+import data.Phone;
+import data.Printer;
+import data.Room;
 import manager.exception.ManagerMethodNotFound;
 import ui.Action;
 import ui.ManagerAction;
@@ -49,12 +54,46 @@ public class Manager
 
 	private void listDevices(UI ui, Data data)
 	{
-		// TODO
+		for (Pc pc : data.pcList)
+		{
+			System.out.println(pc);
+		}
+
+		for (Phone phone : data.phoneList)
+		{
+			System.out.println(phone);
+		}
+
+		for (Printer printer : data.printerList)
+		{
+			System.out.println(printer);
+		}
 	}
 
 	private void showDevice(UI ui, Data data)
 	{
-		// TODO
+		System.out.print("Select device ID");
+		String choice = UI.scanner.next();
+
+		boolean found = false;
+
+		for (Pc pc : data.pcList)
+		{
+			if (!found && pc.getId() == Integer.parseInt(choice))
+				found = true;
+		}
+
+		for (Phone phone : data.phoneList)
+		{
+			if (!found && phone.getId() == Integer.parseInt(choice))
+				found = true;
+		}
+
+		for (Printer printer : data.printerList)
+		{
+			if (!found && printer.getId() == Integer.parseInt(choice))
+				found = true;
+		}
 	}
 
 	private void addDevice(UI ui, Data data)
@@ -74,7 +113,10 @@ public class Manager
 
 	private void listNetworks(UI ui, Data data)
 	{
-		// TODO
+		for (Network net:data.netList)
+		{
+			System.out.println(net);
+		}
 	}
 
 	private void showNetwork(UI ui, Data data)
@@ -84,7 +126,10 @@ public class Manager
 
 	private void listRooms(UI ui, Data data)
 	{
-		// TODO
+		for (Room rom:data.roomList)
+		{
+			System.out.println(rom);
+		}
 	}
 
 	private void showRoom(UI ui, Data data)
