@@ -5,6 +5,7 @@ import java.util.Map;
 
 import data.Data;
 import data.Network;
+import data.Os;
 import data.Pc;
 import data.Phone;
 import data.Printer;
@@ -81,18 +82,21 @@ public class Manager
 		{
 			if (!found && pc.getId() == Integer.parseInt(choice))
 				found = true;
+				System.out.println(pc);
 		}
 
 		for (Phone phone : data.phoneList)
 		{
 			if (!found && phone.getId() == Integer.parseInt(choice))
 				found = true;
+				System.out.println(phone);
 		}
 
 		for (Printer printer : data.printerList)
 		{
 			if (!found && printer.getId() == Integer.parseInt(choice))
 				found = true;
+				System.out.println(printer);
 		}
 	}
 
