@@ -33,25 +33,46 @@ public class Data
 		this.phoneList = new ArrayList<Phone>();
 		this.printerList = new ArrayList<Printer>();
 
-		try
+	public void addPc(Pc newPc)
 		{
-			// TEST DEVICES
-			Phone p1 = new Phone("a", "h", "23", 5, "123456789", this.roomList.get(1), netList.get(0));
-			Phone p2 = new Phone("b", "f", "1", 5, "123444789", this.roomList.get(2), netList.get(0));
-			Pc pc1 = new Pc("d", "j", "25", 5, Os.Windows, 1024, this.roomList.get(1), netList.get(1));
-			Pc pc2 = new Pc("d", "i", "1", 5, Os.Linux, 123548, this.roomList.get(0), netList.get(1));
-			Printer pt1 = new Printer("c", "h", "25", 5, this.roomList.get(2), netList.get(2));
-			Printer pt2 = new Printer("f", "g", "54", 5, this.roomList.get(1), netList.get(2));
-			this.phoneList.add(p1);
-			this.phoneList.add(p2);
-			this.pcList.add(pc1);
-			this.pcList.add(pc2);
-			this.printerList.add(pt1);
-			this.printerList.add(pt2);
+		this.pcList.add(newPc);
 		}
-		catch (Exception e)
+
+	public void addPhone(Phone newPhone)
 		{
-			System.out.println(e);
+		this.phoneList.add(newPhone);
+	}
+
+	public void addPrinter(Printer newPrinter)
+	{
+		this.printerList.add(newPrinter);
 		}
+
+	public void delDevice(int id)
+	{
+		// TODO disconnect network + room too
+		int index = -1;
+		for (Pc pc : this.pcList)
+			if (pc.getId() == id)
+				index = this.pcList.indexOf(pc);
+		
+		if (index != -1)
+			this.pcList.remove(index);
+
+		index = -1;
+		for (Phone phone : this.phoneList)
+			if (phone.getId() == id)
+				index = this.phoneList.indexOf(phone);
+
+		if (index != -1)
+			this.phoneList.remove(index);
+
+		index = -1;
+		for (Printer printer : this.printerList)
+			if (printer.getId() == id)
+				index = this.printerList.indexOf(printer);
+
+		if (index != -1)
+			this.printerList.remove(index);
 	}
 }
