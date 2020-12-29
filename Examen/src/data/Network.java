@@ -15,6 +15,11 @@ public class Network
 		this.ipList = new ArrayList<String>();
 	}
 
+	public String getName()
+	{
+		return this.name;
+	}
+
 	public int getDeviceCount()
 	{
 		return this.ipList.size();
