@@ -200,7 +200,10 @@ public class Manager
 
 	private void deleteDevice(UI ui, Data data)
 	{
-		// TODO
+		System.out.print("Decice ID: ");
+		int id = Integer.parseInt(UI.scanner.next());
+
+		data.delDevice(id);
 	}
 
 	private void editDevice(UI ui, Data data)
