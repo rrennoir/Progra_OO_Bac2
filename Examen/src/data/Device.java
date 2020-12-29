@@ -42,6 +42,21 @@ public class Device
         return this.id;
     }
 
+    public boolean isDeviceOn()
+    {
+        return this.isOn;
+    }
+
+    public Netint getNetworkInterface()
+    {
+        return this.NetInterface;
+    }
+
+    public Room getLocation()
+    {
+        return this.location;
+    }
+
     public int powerGive() 
     {
     	return this.power;
