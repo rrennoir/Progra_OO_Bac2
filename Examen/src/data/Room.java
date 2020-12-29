@@ -16,12 +16,17 @@ public class Room
 		this.roomList = new ArrayList<Device>();
 	}
 	
+	public String getName()
+	{
+		return this.name;
+	}
+
 	/*Update powerSupp*/
 	private void PowerUse() 
 	{
 		for (Device dev : roomList) 
 		{
-		this.powerSupp -= dev.powerGive();
+			this.powerSupp -= dev.powerGive();
 		}
 	}
 	
