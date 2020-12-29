@@ -17,36 +17,37 @@ public class Data
 	{
 		/** Création des réseaux et placements dans la liste **/
 		this.netList = new ArrayList<Network>();
-		this.netList.add(new Network("192.168.1.0", "Réseau 1"));
-		this.netList.add(new Network("192.168.2.0", "Réseau 2"));
-		this.netList.add(new Network("192.168.3.0", "Réseau 3"));
+		this.netList.add(new Network("192.168.1.0", "Network 1"));
+		this.netList.add(new Network("192.168.2.0", "Network 2"));
+		this.netList.add(new Network("192.168.3.0", "Network 3"));
 	
 		/** Création des locaux et placements dans la liste **/
 		this.roomList = new ArrayList<Room>();
-		this.roomList.add(new Room("Local 1 ", 5000));
-		this.roomList.add(new Room("Local 2 ", 6000));
-		this.roomList.add(new Room("Local 3 ", 4500));
-		this.roomList.add(new Room("Local 4 ", 5000));
-		this.roomList.add(new Room("Local 5 ", 4000));
+		this.roomList.add(new Room("Room 1", 5000));
+		this.roomList.add(new Room("Room 2", 6000));
+		this.roomList.add(new Room("Room 3", 4500));
+		this.roomList.add(new Room("Room 4", 5000));
+		this.roomList.add(new Room("Room 5", 4000));
 
 		this.pcList = new ArrayList<Pc>();
 		this.phoneList = new ArrayList<Phone>();
 		this.printerList = new ArrayList<Printer>();
+	}
 
 	public void addPc(Pc newPc)
-		{
+	{
 		this.pcList.add(newPc);
-		}
+	}
 
 	public void addPhone(Phone newPhone)
-		{
+	{
 		this.phoneList.add(newPhone);
 	}
 
 	public void addPrinter(Printer newPrinter)
 	{
 		this.printerList.add(newPrinter);
-		}
+	}
 
 	public void delDevice(int id)
 	{
