@@ -8,4 +8,9 @@ public class Netint
 	{
 		this.ip = ip;
 	}
+
+	public String getIp()
+	{
+		return this.ip;
+	}
 }
