@@ -98,7 +98,104 @@ public class Manager
 
 	private void addDevice(UI ui, Data data)
 	{
-		// TODO
+		System.out.print("Type (PC/Phone/Printer): ");
+		String type = UI.scanner.next().toLowerCase();
+
+		System.out.print("Brand: ");
+		String brand = UI.scanner.next();
+
+		System.out.print("Model: ");
+		String model = UI.scanner.next();
+
+		System.out.print("Serial Number: ");
+		String serialNumber = UI.scanner.next();
+
+		System.out.print("Power: ");
+		int power = UI.scanner.nextInt();
+
+		boolean found = false;
+		String locationName = "";
+		Room location = data.roomList.get(0);
+		while (!found)
+		{
+			System.out.print("Location: ");
+			locationName = UI.scanner.nextLine();
+			for (Room room : data.roomList)
+			{
+				if (locationName.equals(room.getName()))
+				{
+					location = room;
+					found = true;
+				}
+			}
+		}
+
+		found = false;
+		String networkName = "";
+		Network network = data.netList.get(0);
+		while (!found)
+		{
+			System.out.print("Network: ");
+			networkName = UI.scanner.nextLine();
+			for (Network net : data.netList)
+			{
+				if (networkName.equals(net.getName()))
+				{
+					network = net;
+					found = true;
+				}
+			}
+		}
+
+		if (type.equals("phone"))
+		{
+			System.out.print("Phone number: ");
+			String number = UI.scanner.next();
+
+			try
+			{
+				data.addPhone(new data.Phone(brand, model, serialNumber, power, number, location, network));
+			}
+			catch (Exception e)
+			{
+				System.out.println(e);
+			}
+		}
+
+		else if (type.equals("printer"))
+		{
+			try
+			{
+				data.addPrinter(new data.Printer(brand, model, serialNumber, power, location, network));
+			}
+			catch (Exception e)
+			{
+				System.out.println(e);
+			}
+		}
+		else
+		{
+			Os os;
+			System.out.print("OS (Linux / Windows): ");
+			String osString = UI.scanner.next();
+			if (osString.toLowerCase().equals("windows"))
+				os = Os.Linux;
+
+			else
+				os = Os.Windows;
+
+			System.out.print("Ram: ");
+			int ram = Integer.parseInt(UI.scanner.next());
+
+			try
+			{	
+				data.addPc(new data.Pc(brand, model, serialNumber, power, os, ram, location, network));
+			}
+			catch (Exception e)
+			{
+				System.out.println(e);
+			}
+		}
 	}
 
 	private void deleteDevice(UI ui, Data data)
