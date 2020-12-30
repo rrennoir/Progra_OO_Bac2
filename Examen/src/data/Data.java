@@ -1,79 +1,48 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * Use this object (and others) to store information about the devices, networks and rooms
  */
 public class Data
 {
-	public ArrayList<Room> roomList;
-	public ArrayList<Network> netList;
-	public ArrayList<Phone> phoneList;
-	public ArrayList<Pc> pcList;
-	public ArrayList<Printer> printerList;
+	public Map<String, Room> rooms;
+	public Map<String, Network> networks;
+	public Map<Integer, Device> devices;
 
 	public Data()
 	{
 		/** Création des réseaux et placements dans la liste **/
-		this.netList = new ArrayList<Network>();
-		this.netList.add(new Network("192.168.1.0", "Network 1"));
-		this.netList.add(new Network("192.168.2.0", "Network 2"));
-		this.netList.add(new Network("192.168.3.0", "Network 3"));
-	
+		this.networks = new HashMap<>();
+		this.networks.put("Network 1", new Network("192.168.1.0", "Network 1"));
+		this.networks.put("Network 2", new Network("192.168.2.0", "Network 2"));
+		this.networks.put("Network 3", new Network("192.168.3.0", "Network 3"));
+
 		/** Création des locaux et placements dans la liste **/
-		this.roomList = new ArrayList<Room>();
-		this.roomList.add(new Room("Room 1", 5000));
-		this.roomList.add(new Room("Room 2", 6000));
-		this.roomList.add(new Room("Room 3", 4500));
-		this.roomList.add(new Room("Room 4", 5000));
-		this.roomList.add(new Room("Room 5", 4000));
+		this.rooms = new HashMap<>();
+		this.rooms.put("Room 1", new Room("Room 1", 5000));
+		this.rooms.put("Room 2", new Room("Room 2", 6000));
+		this.rooms.put("Room 3", new Room("Room 3", 4500));
+		this.rooms.put("Room 4", new Room("Room 4", 5000));
+		this.rooms.put("Room 5", new Room("Room 5", 4000));
 
-		this.pcList = new ArrayList<Pc>();
-		this.phoneList = new ArrayList<Phone>();
-		this.printerList = new ArrayList<Printer>();
+		this.devices = new HashMap<>();
 	}
 
-	public void addPc(Pc newPc)
+	public void addDevice(Device device)
 	{
-		this.pcList.add(newPc);
-	}
-
-	public void addPhone(Phone newPhone)
-	{
-		this.phoneList.add(newPhone);
-	}
-
-	public void addPrinter(Printer newPrinter)
-	{
-		this.printerList.add(newPrinter);
+		this.devices.put(Integer.valueOf(device.getId()), device);
 	}
 
 	public void delDevice(int id)
 	{
-		// TODO disconnect network + room too
-		int index = -1;
-		for (Pc pc : this.pcList)
-			if (pc.getId() == id)
-				index = this.pcList.indexOf(pc);
-		
-		if (index != -1)
-			this.pcList.remove(index);
+		Device device = this.devices.get(id);
 
-		index = -1;
-		for (Phone phone : this.phoneList)
-			if (phone.getId() == id)
-				index = this.phoneList.indexOf(phone);
+		// TODO disconnect net + power
 
-		if (index != -1)
-			this.phoneList.remove(index);
-
-		index = -1;
-		for (Printer printer : this.printerList)
-			if (printer.getId() == id)
-				index = this.printerList.indexOf(printer);
-
-		if (index != -1)
-			this.printerList.remove(index);
+		this.devices.remove(id);
 	}
 }
