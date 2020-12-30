@@ -7,7 +7,7 @@ public class Printer extends Device
 
     public Printer(String brand, String model, String serialNumber, int power, Room location, Network net) throws DeviceAlreadyExist
     {
-        super(brand, model, serialNumber, power ,location, net);
+        super(brand, model, serialNumber, power, location, net);
         this.pagePrinted = 0;
         this.pageLeft = 0;
     }
@@ -20,6 +20,11 @@ public class Printer extends Device
             this.pageLeft--;
         }
         System.out.println(text);
+    }
+
+    public void addPaper(int nbPaper)
+    {
+        this.pageLeft += nbPaper;
     }
 
     public void turnOn()
