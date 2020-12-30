@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import data.Data;
+import data.Device;
 import data.Network;
 import data.Os;
-import data.Pc;
-import data.Phone;
-import data.Printer;
 import data.Room;
 import manager.exception.ManagerMethodNotFound;
 import ui.Action;
@@ -55,49 +53,22 @@ public class Manager
 
 	private void listDevices(UI ui, Data data)
 	{
-		for (Pc pc : data.pcList)
+		for (Map.Entry<Integer, Device> entry : data.devices.entrySet())
 		{
-			System.out.println(pc);
-		}
-
-		for (Phone phone : data.phoneList)
-		{
-			System.out.println(phone);
-		}
-
-		for (Printer printer : data.printerList)
-		{
-			System.out.println(printer);
+			System.out.println(entry.getValue());
 		}
 	}
 
 	private void showDevice(UI ui, Data data)
 	{
-		System.out.print("Select device ID");
-		String choice = UI.scanner.next();
+		System.out.print("Select device ID: ");
+		int id = UI.scanner.nextInt();
 
-		boolean found = false;
+		if (data.devices.containsKey(id))
+			System.out.println(data.devices.get(id));
 
-		for (Pc pc : data.pcList)
-		{
-			if (!found && pc.getId() == Integer.parseInt(choice))
-				found = true;
-				System.out.println(pc);
-		}
-
-		for (Phone phone : data.phoneList)
-		{
-			if (!found && phone.getId() == Integer.parseInt(choice))
-				found = true;
-				System.out.println(phone);
-		}
-
-		for (Printer printer : data.printerList)
-		{
-			if (!found && printer.getId() == Integer.parseInt(choice))
-				found = true;
-				System.out.println(printer);
-		}
+		else
+			System.out.println(String.format("No Device with id '%d' found.", id));
 	}
 
 	private void addDevice(UI ui, Data data)
@@ -117,39 +88,23 @@ public class Manager
 		System.out.print("Power: ");
 		int power = UI.scanner.nextInt();
 
-		boolean found = false;
-		String locationName = "";
-		Room location = data.roomList.get(0);
-		while (!found)
+		System.out.print("Location: ");
+		String locationName = UI.scanner.next();
+		while (!data.rooms.containsKey(locationName))
 		{
 			System.out.print("Location: ");
-			locationName = UI.scanner.nextLine();
-			for (Room room : data.roomList)
-			{
-				if (locationName.equals(room.getName()))
-				{
-					location = room;
-					found = true;
-				}
-			}
+			locationName = UI.scanner.next();
 		}
+		Room location = data.rooms.get(locationName);
 
-		found = false;
-		String networkName = "";
-		Network network = data.netList.get(0);
-		while (!found)
+		System.out.print("Network: ");
+		String networkName = UI.scanner.next();
+		while (!data.networks.containsKey(networkName))
 		{
 			System.out.print("Network: ");
-			networkName = UI.scanner.nextLine();
-			for (Network net : data.netList)
-			{
-				if (networkName.equals(net.getName()))
-				{
-					network = net;
-					found = true;
-				}
-			}
+			networkName = UI.scanner.next();
 		}
+		Network network = data.networks.get(networkName);
 
 		if (type.equals("phone"))
 		{
@@ -158,7 +113,7 @@ public class Manager
 
 			try
 			{
-				data.addPhone(new data.Phone(brand, model, serialNumber, power, number, location, network));
+				data.addDevice(new data.Phone(brand, model, serialNumber, power, number, location, network));
 			}
 			catch (Exception e)
 			{
@@ -170,7 +125,7 @@ public class Manager
 		{
 			try
 			{
-				data.addPrinter(new data.Printer(brand, model, serialNumber, power, location, network));
+				data.addDevice(new data.Printer(brand, model, serialNumber, power, location, network));
 			}
 			catch (Exception e)
 			{
@@ -193,7 +148,7 @@ public class Manager
 
 			try
 			{	
-				data.addPc(new data.Pc(brand, model, serialNumber, power, os, ram, location, network));
+				data.addDevice(new data.Pc(brand, model, serialNumber, power, os, ram, location, network));
 			}
 			catch (Exception e)
 			{
@@ -212,27 +167,50 @@ public class Manager
 
 	private void editDevice(UI ui, Data data)
 	{
-		// TODO
+		// System.out.print("Decice ID: ");
+		// int id = Integer.parseInt(UI.scanner.next());
+
+		// Device deviceEdit = null;
+		// for (Device device : data.devices)
+		// 	if (device.getId() == id)
+		// 		deviceEdit = device;
+
+		// if (deviceEdit != null)
+		// {
+
+		// 	if (deviceEdit instanceof Printer)
+
+
+		// 	else if (deviceEdit instanceof Phone)
+		// }
+				
 	}
 
 	private void listNetworks(UI ui, Data data)
 	{
-		for (Network net:data.netList)
+		for (Map.Entry<String, Network> entry : data.networks.entrySet())
 		{
-			System.out.println(net);
+			System.out.println(entry.getValue());	
 		}
 	}
 
 	private void showNetwork(UI ui, Data data)
 	{
-		// TODO
+		System.out.print("Select Network: ");
+		String name = UI.scanner.nextLine();
+
+		if (data.networks.containsKey(name))
+			System.out.println(data.networks.get(name));
+
+		else
+			System.out.println(String.format("No Network with name '%s' found.", name));
 	}
 
 	private void listRooms(UI ui, Data data)
 	{
-		for (Room rom:data.roomList)
+		for (Map.Entry<String, Room> entry : data.rooms.entrySet())
 		{
-			System.out.println(rom);
+			System.out.println(entry.getValue());	
 		}
 	}
 
