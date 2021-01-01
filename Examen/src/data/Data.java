@@ -1,6 +1,5 @@
 package data;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,13 +14,13 @@ public class Data
 
 	public Data()
 	{
-		/** Création des réseaux et placements dans la liste **/
+		/** Creation des reseaux et placements dans la liste **/
 		this.networks = new HashMap<>();
 		this.networks.put("Network_1", new Network("192.168.1.0","Network_1"));
 		this.networks.put("Network_2", new Network("192.168.2.0","Network_2"));
 		this.networks.put("Network_3", new Network("192.168.3.0","Network_3"));
 
-		/** Création des locaux et placements dans la liste **/
+		/** Creation des locaux et placements dans la liste **/
 		this.rooms = new HashMap<>();
 		this.rooms.put("Room_1", new Room("Room_1", 5000));
 		this.rooms.put("Room_2", new Room("Room_2", 6000));
@@ -39,10 +38,27 @@ public class Data
 
 	public void delDevice(int id)
 	{
-		Device device = this.devices.get(id);
-
-		// TODO disconnect net + power
-
-		this.devices.remove(id);
+		if (this.devices.containsKey(id))
+		{
+			Device device = this.devices.get(id);
+			device.delSelf();
+			this.devices.remove(id);
+		}
+		else
+			System.out.println(String.format("Device with id %s doesn't exist", id));
+	}
+	
+	public void showNetwork(String name)
+	{	
+		String devDescri = "";
+		for (Map.Entry<Integer, Device> entry : this.devices.entrySet())
+		{
+			if (entry.getValue().getNetwork().getName().equals(name))
+			{
+				String sglDev= entry.getValue() + " \n ";
+				devDescri += sglDev;
+			}
+		}
+		System.out.println( "Voici la liste des devices du "+ name + " : \n"+ devDescri);
 	}
 }
