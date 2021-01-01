@@ -10,6 +10,7 @@ public enum ManagerAction implements Action
 	ADD_DEVICE, // Add a device
 	DELETE_DEVICE, // Delete a device
 	EDIT_DEVICE, // Edit a device
+	INTERACT_DEVICE,
 
 	LIST_NETWORKS, // List all networks
 	SHOW_NETWORK, // Display info about a network and list devices connected to it
