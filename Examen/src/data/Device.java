@@ -15,6 +15,7 @@ public class Device
     private boolean isOn;
     private Netint NetInterface;
     private Room location;
+    private Network network;
 
     public Device(String brand, String model, String serialNumber, int power, Room location, Network net) throws DeviceAlreadyExist
     {
@@ -33,13 +34,80 @@ public class Device
             this.isOn = false;
             this.power = power;
             this.location = location;
+            this.location.addDevToRoom(this);
             this.NetInterface = new Netint(net.getNewIp());
+            this.network = net;
         }
     }
 
     public int getId()
     {
         return this.id;
+    }
+
+    public void setBrand(String newBrand) throws DeviceAlreadyExist
+    {
+        String newDeviceId = newBrand + this.model + this.serialNumber;
+
+        if (!Device.deviceIDs.contains(newDeviceId))
+        {
+            Device.deviceIDs.remove(this.brand + this.model + this.serialNumber);
+            this.brand = newBrand;
+            Device.deviceIDs.add(newDeviceId);
+        }
+        else
+            throw new DeviceAlreadyExist(this.brand, this.model, this.serialNumber);
+    }
+
+    public void setModel(String newModel) throws DeviceAlreadyExist
+    {
+        String newDeviceId = this.brand + newModel + this.serialNumber;
+
+        if (!Device.deviceIDs.contains(newDeviceId))
+        {
+            Device.deviceIDs.remove(this.brand + this.model + this.serialNumber);
+            this.model = newModel;
+            Device.deviceIDs.add(newDeviceId);
+        }
+        else
+            throw new DeviceAlreadyExist(this.brand, this.model, this.serialNumber);
+    }
+
+    public void setSerialNumber(String newSerialNumber) throws DeviceAlreadyExist
+    {
+        String newDeviceId = this.brand + this.model + newSerialNumber;
+
+        if (!Device.deviceIDs.contains(newDeviceId))
+        {
+            Device.deviceIDs.remove(this.brand + this.model + this.serialNumber);
+            this.serialNumber = newSerialNumber;
+            Device.deviceIDs.add(newDeviceId);
+        }
+        else
+            throw new DeviceAlreadyExist(this.brand, this.model, this.serialNumber);
+    }
+
+    public void setPower(int power)
+    {
+        this.turnOff();
+        this.power = power;
+        this.turnOn();
+    }
+
+    public void setLocation(Room newLocation)
+    {
+        this.turnOff();
+        this.location.delDevFromRoom(this);
+        this.location = newLocation;
+        this.location.addDevToRoom(this);
+        this.turnOn();
+    }
+
+    public void setNetwork(Network newNetwork)
+    {
+        this.network.DelIp(this.NetInterface.getIp());
+        this.network = newNetwork;
+        this.NetInterface = new Netint(this.network.getNewIp());
     }
 
     public boolean isDeviceOn()
@@ -61,14 +129,32 @@ public class Device
     {
     	return this.power;
     }
-    public void switchPower(boolean value)
+
+    public void turnOn()
     {
-    	this.isOn = value;
+        if (this.location.increaseLoad(this.power))
+            this.isOn = true;
+
+        else
+            System.out.println("Room doesn't have enough power to enable this device.");
+    }
+
+    public void turnOff()
+    {
+        this.isOn = false;
+        this.location.decreaseLoad(this.power);
+    }
+
+    public void delSelf()
+    {
+        this.turnOff();
+        this.location.delDevFromRoom(this);
+        this.network.DelIp(this.NetInterface.getIp());
     }
 
     public String toString()
     {
-        return String.format("Id: %d\nBrand: %s\nModel: %s\nSerialNumber: %s", this.id, this.brand, this.model, this.serialNumber);
+        return String.format("Id: %d\nBrand: %s\nModel: %s\nSerialNumber: %s\nPower: %d\nIP: %s", this.id, this.brand, this.model, this.serialNumber, this.power, this.NetInterface.getIp());
     }
 
     private static int getUniqueId()
@@ -78,4 +164,9 @@ public class Device
 
         return id;
     }
+    
+    public Network getNetwork() 
+	{
+		return this.network;
+	}
 }
