@@ -29,13 +29,14 @@ public class Printer extends Device
 
     public void turnOn()
     {
-        super.switchPower(true);
+        super.turnOn();
 
-        System.out.println("Test page");
+        if (this.isDeviceOn())
+            System.out.println("Test page");
     }
 
-    public void turnOff()
+    public String toString()
     {
-        super.switchPower(false);
+        return String.format("%s\nPage printed: %d\nPage left", super.toString(), this.pagePrinted, this.pageLeft);
     }
 }
