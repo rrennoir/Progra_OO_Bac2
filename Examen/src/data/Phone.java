@@ -4,15 +4,14 @@ import java.util.ArrayList;
 
 public class Phone extends Device
 {
+    private static ArrayList<String> numbers = new ArrayList<String>();
+
     private String number;
-    private static ArrayList<String> numbers;
 
     public Phone(String brand, String model, String serialNumber, int power, String number, Room location, Network net) throws DeviceAlreadyExist, PhoneNumberAlreadyExist
     {
-        super(brand, model, serialNumber, power , location, net);
-        if (Phone.numbers == null)
-            Phone.numbers = new ArrayList<String>();
-        
+        super(brand, model, serialNumber, power, location, net);
+
         if (!numbers.contains(number))
             this.number = number;
 
@@ -20,21 +19,25 @@ public class Phone extends Device
             throw new PhoneNumberAlreadyExist(number);
     }
 
-    public void turnOn()
+    public void setNumber(String newNumber)
     {
-        super.switchPower(true);
-        ring();
-        ring();
+        this.number = newNumber;
     }
 
-    public void turnOff()
+    public void turnOn()
     {
-        super.switchPower(false);
+        super.turnOn();
+        if (isDeviceOn())
+        {
+            ring();
+            ring();
+        }
     }
 
     public void ring()
     {
-        System.out.println("ring ring");
+        if (this.isDeviceOn())
+            System.out.println("ring ring");
     }
 
     public String toString()
