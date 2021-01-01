@@ -34,6 +34,18 @@ public class Printer extends Device
         if (this.isDeviceOn())
             System.out.println("Test page");
     }
+    
+    public void powerSwitch()
+    {
+    	if (this.isDeviceOn())
+    	{
+    		this.turnOff();
+    	}
+    	else
+    	{
+    		this.turnOn();
+    	}
+    }
 
     public String toString()
     {

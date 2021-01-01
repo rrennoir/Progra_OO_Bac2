@@ -33,7 +33,17 @@ public class Phone extends Device
             ring();
         }
     }
-
+    public void powerSwitch()
+    {
+    	if (this.isDeviceOn())
+    	{
+    		this.turnOff();
+    	}
+    	else
+    	{
+    		this.turnOn();
+    	}
+    }
     public void ring()
     {
         if (this.isDeviceOn())

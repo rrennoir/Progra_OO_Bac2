@@ -56,6 +56,18 @@ public class Pc extends Device
         super.turnOff();
         System.out.println(String.format("%s: Goodbye", os.name()));
     }
+    
+    public void powerSwitch()
+    {
+    	if (this.isDeviceOn())
+    	{
+    		this.turnOff();
+    	}
+    	else
+    	{
+    		this.turnOn();
+    	}
+    }
 
     public String toString()
     {
