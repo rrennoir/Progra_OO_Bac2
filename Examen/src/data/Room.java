@@ -5,14 +5,16 @@ import java.util.ArrayList;
 public class Room 
 {
 	private String name;
-	private int powerSupp;
+	private int roomPower;
+	private int powerAvailable;
 	private ArrayList<Device> roomList;
 	
 	/*Constructeur*/
-	Room(String name, int powerSupp)
+	Room(String name, int power)
 	{
 		this.name = name;
-		this.powerSupp = powerSupp;
+		this.roomPower = power;
+		this.powerAvailable = power;
 		this.roomList = new ArrayList<Device>();
 	}
 	
@@ -21,24 +23,51 @@ public class Room
 		return this.name;
 	}
 
-	/*Update powerSupp*/
-	private void PowerUse() 
+	public boolean increaseLoad(int power) 
 	{
-		for (Device dev : roomList) 
+		if (this.powerAvailable >= power)
 		{
-			this.powerSupp -= dev.powerGive();
+			this.powerAvailable -= power;
+			return true;
 		}
+		else
+			return false;
 	}
 	
+	public void decreaseLoad(int power)
+	{
+		this.powerAvailable += power;
+	}
+
 	public void Switcher() 
 	{
-		for (Device dev : roomList)	
-		{
-			dev.switchPower(false);
-		}
+		for (Device dev : roomList)
+			dev.turnOff();
 	}
+
 	public String toString()
 	{
-		return "Le "+ this.name + " dispose de "+ this.powerSupp +" watts actuellement \n";
+		return "Le " + this.name + " dispose de " + this.roomPower + " watts et " + this.powerAvailable + " de disponibles , et " + this.roomList.size() + " appareils connectes \n";
+	}
+	
+	public void addDevToRoom(Device dev)
+	{
+		this.roomList.add(dev);
+	}
+	
+	public void delDevFromRoom(Device dev)
+	{
+		this.roomList.remove(dev);
+	}
+	
+	public void showRoomDevices()
+	{
+		String devDescri = "";
+		for (Device dev:roomList)
+		{ 	
+			String sglDev = dev +" \n ";
+			devDescri += sglDev;
+		}
+		System.out.println("Voici la liste des devices du "+ this.name+ " : \n"+ devDescri);
 	}
 }
