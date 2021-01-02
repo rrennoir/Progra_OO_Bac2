@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import ui.menu.DeviceInteractMenu;
 import ui.menu.DeviceMenu;
+import ui.menu.EditDeviceMenu;
 import ui.menu.MainMenu;
 import ui.menu.Menu;
 import ui.menu.NetworkMenu;
@@ -33,6 +35,9 @@ public class UI
 		this.menus.put(MenuAction.DEVICE_MENU, new DeviceMenu());
 		this.menus.put(MenuAction.NETWORK_MENU, new NetworkMenu());
 		this.menus.put(MenuAction.ROOM_MENU, new RoomMenu());
+
+		this.menus.put(MenuAction.EDIT_DEVICE_MENU, new EditDeviceMenu());
+		this.menus.put(MenuAction.DEVICE_INTERACT_MENU, new DeviceInteractMenu());
 		
 		/*
 		 * To add more menus to the UI :
