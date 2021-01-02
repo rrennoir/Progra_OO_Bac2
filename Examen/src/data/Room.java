@@ -42,7 +42,8 @@ public class Room
 	public void Switcher() 
 	{
 		for (Device dev : roomList)
-			dev.turnOff();
+			if (dev.isDeviceOn())
+				dev.turnOff();
 	}
 
 	public String toString()
