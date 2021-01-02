@@ -68,10 +68,9 @@ public class Manager
 
 	private void listDevices(UI ui, Data data)
 	{
-		for (Map.Entry<Integer, Device> entry : data.devices.entrySet())
-		{
-			Device device = entry.getValue();
 
+		for (Device device : data.devices.values())
+		{
 			if (device instanceof data.Pc)
 				System.out.println((data.Pc)device);
 			
@@ -555,10 +554,8 @@ public class Manager
 
 	private void listNetworks(UI ui, Data data)
 	{
-		for (Map.Entry<String, Network> entry : data.networks.entrySet())
-		{
-			System.out.println(entry.getValue());	
-		}
+		for (Network network : data.networks.values())
+			System.out.println(network);
 	}
 
 	private void showNetwork(UI ui, Data data)
@@ -571,10 +568,8 @@ public class Manager
 
 	private void listRooms(UI ui, Data data)
 	{
-		for (Map.Entry<String, Room> entry : data.rooms.entrySet())
-		{
-			System.out.println(entry.getValue());	
-		}
+		for (Room room : data.rooms.values())
+			System.out.println(room);	
 	}
 
 	private void showRoom(UI ui, Data data)

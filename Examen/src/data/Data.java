@@ -16,9 +16,9 @@ public class Data
 	{
 		/** Creation des reseaux et placements dans la liste **/
 		this.networks = new HashMap<>();
-		this.networks.put("Network_1", new Network("192.168.1.0","Network_1"));
-		this.networks.put("Network_2", new Network("192.168.2.0","Network_2"));
-		this.networks.put("Network_3", new Network("192.168.3.0","Network_3"));
+		this.networks.put("Network_1", new Network("192.168.1.0", "Network_1"));
+		this.networks.put("Network_2", new Network("192.168.2.0", "Network_2"));
+		this.networks.put("Network_3", new Network("192.168.3.0", "Network_3"));
 
 		/** Creation des locaux et placements dans la liste **/
 		this.rooms = new HashMap<>();
@@ -51,14 +51,12 @@ public class Data
 	public void showNetwork(String name)
 	{	
 		String devDescri = "";
-		for (Map.Entry<Integer, Device> entry : this.devices.entrySet())
-		{
-			if (entry.getValue().getNetwork().getName().equals(name))
+		for (Device device : this.devices.values())
+			if (device.getNetwork().getName().equals(name))
 			{
-				String sglDev= entry.getValue() + " \n ";
+				String sglDev= device + " \n ";
 				devDescri += sglDev;
 			}
-		}
 		System.out.println( "Voici la liste des devices du "+ name + " : \n"+ devDescri);
 	}
 }
