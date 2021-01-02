@@ -26,8 +26,22 @@ public class Manager
 		this.actionMethods.put(ManagerAction.SHOW_DEVICE, this::showDevice);
 		this.actionMethods.put(ManagerAction.ADD_DEVICE, this::addDevice);
 		this.actionMethods.put(ManagerAction.DELETE_DEVICE, this::deleteDevice);
-		this.actionMethods.put(ManagerAction.EDIT_DEVICE, this::editDevice);
-		this.actionMethods.put(ManagerAction.INTERACT_DEVICE, this::interactDevice);
+
+		this.actionMethods.put(ManagerAction.EDIT_BRAND, this::editBrand);
+		this.actionMethods.put(ManagerAction.EDIT_MODEL, this::editModel);
+		this.actionMethods.put(ManagerAction.EDIT_SERIAL_NUMBER, this::editSerialNumber);
+		this.actionMethods.put(ManagerAction.EDIT_POWER, this::editPower);
+		this.actionMethods.put(ManagerAction.EDIT_ROOM, this::editRoom);
+		this.actionMethods.put(ManagerAction.EDIT_NETWORK, this::editNetwork);
+		this.actionMethods.put(ManagerAction.EDIT_OS, this::editOs);
+		this.actionMethods.put(ManagerAction.EDIT_RAM, this::editRam);
+		this.actionMethods.put(ManagerAction.EDIT_NUMBER, this::editNumber);
+		
+		this.actionMethods.put(ManagerAction.DEVICE_POWER_SWITCH, this::DevicePowerSwitch);
+		this.actionMethods.put(ManagerAction.ROOM_POWER_OFF, this::RoomPowerOff);
+		this.actionMethods.put(ManagerAction.RING, this::ring);
+		this.actionMethods.put(ManagerAction.PRINT, this::print);
+		this.actionMethods.put(ManagerAction.ADD_PAPER, this::addPaper);
 
 		this.actionMethods.put(ManagerAction.LIST_NETWORKS, this::listNetworks);
 		this.actionMethods.put(ManagerAction.SHOW_NETWORK, this::showNetwork);
@@ -196,318 +210,347 @@ public class Manager
 
 	private void deleteDevice(UI ui, Data data)
 	{
-		System.out.print("Decice ID: ");
-		int id = Integer.parseInt(UI.scanner.next());
+		int id = askDeviceId();
 
-		data.delDevice(id);
+		if (data.devices.containsKey(id))
+			data.delDevice(id);
 	}
 
-	private void editDevice(UI ui, Data data)
+	private void editBrand(UI ui, Data data)
 	{
-		System.out.print("Decice ID: ");
-
-		int id = -1;
-		try
-		{
-			id = UI.scanner.nextInt();
-		}
-		catch (Exception e)
-		{
-			System.out.println("Number please.");
-		}
+		int id = askDeviceId();
 
 		if (data.devices.containsKey(id))
 		{
 			Device device = data.devices.get(id);
-			
-			System.out.println("Editable properties: ");
-			System.out.println("-Brand(ALL)\n-Model(ALL)\n-Serial_Number(ALL)\n-Power(ALL)\n-Location(ALL)\n-Network(ALL)");
-			System.out.println("-OS(PC)\n-RAM(PC)\n-Phone_Number(Phone)");
-			System.out.print("What property to you want to edit ? ");
+			System.out.print("New brand: ");
+			String brand = UI.scanner.next();
 
-			String proprety = UI.scanner.next();
-
-			switch (proprety.toLowerCase())
+			try
 			{
-				case "brand":
-
-					System.out.print("New brand: ");
-					String brand = UI.scanner.next();
-
-					try
-					{
-						device.setBrand(brand);
-					}
-					catch (Exception e)
-					{
-						System.out.println("Device with the same brand, model and serial number already exist");
-					}
-					break;
-
-				case "model":
-					
-					System.out.print("New model: ");
-					String model = UI.scanner.next();
-
-					try
-					{
-						device.setModel(model);
-					}
-					catch (Exception e)
-					{
-						System.out.println("Device with the same brand, model and serial number already exist");
-					}
-					break;
-
-				case "serial number":
-
-					System.out.print("New serial number: ");
-					String serialNumber = UI.scanner.next();
-
-					try
-					{
-						device.setSerialNumber(serialNumber);
-					}
-					catch (Exception e)
-					{
-						System.out.println("Device with the same brand, model and serial number already exist");
-					}
-					break;
-
-				case "power":
-
-					System.out.print("New power: ");
-
-					try
-					{
-						int power = UI.scanner.nextInt();
-						device.setPower(power);
-					}
-					catch (Exception e)
-					{
-						System.out.println("Number please.");
-					}
-
-					break;
-
-				case "location":
-					
-					System.out.print("New location: ");
-					String locationName = UI.scanner.next();
-					while (!data.rooms.containsKey(locationName))
-					{
-						System.out.print("New location: ");
-						locationName = UI.scanner.next();
-					}
-					Room newLocation = data.rooms.get(locationName);
-					device.setLocation(newLocation);
-
-					break;
-			
-				case "network":
-
-					System.out.print("New network: ");
-					String networkName = UI.scanner.next();
-					while (!data.networks.containsKey(networkName))
-					{
-						System.out.print("New network: ");
-						networkName = UI.scanner.next();
-					}
-					Network newNetwork = data.networks.get(networkName);
-					device.setNetwork(newNetwork);
-
-					break;
-				
-				case "os":
-					
-					if (device instanceof data.Pc)
-					{
-						data.Pc pc = (data.Pc)device;
-						System.out.print("new os (Linux / Windows): ");
-						String osName = UI.scanner.next();
-	
-						Os os;
-						if (osName.toLowerCase().equals("linux"))
-							os = Os.Linux;
-			
-						else
-							os = Os.Windows;
-	
-						pc.setOs(os);
-					}
-					else
-						System.out.println("Only pc device have an os properties.");
-
-					break;
-
-				case "ram":
-					
-					if (device instanceof data.Pc)
-					{
-						data.Pc pc = (data.Pc)device;
-						System.out.print("new ram: ");
-
-						int ram = 1024;
-						try
-						{
-							ram = UI.scanner.nextInt();
-						}
-						catch (Exception e)
-						{
-							System.out.println("Number please.");
-						}
-
-						pc.setRam(ram);
-					}
-					else
-						System.out.println("Only pc device have a ram properties.");
-					
-					break;
-				
-				case "phone_number":
-					
-					if (device instanceof data.Phone)
-					{
-						data.Phone phone = (data.Phone)device;
-						System.out.print("new number: ");
-						String number = UI.scanner.next();
-
-						phone.setNumber(number);
-					}
-					else
-						System.out.println("Only phone device have a phone_number properties.");
-					
-					break;
-
-				default:
-					System.out.println("Only phone device have a phone_number properties.");
-					break;
+				device.setBrand(brand);
+			}
+			catch (Exception e)
+			{
+				System.out.println("Device with the same brand, model and serial number already exist");
 			}
 		}
 		else
-			System.out.println("ID doesn't exist");
+			System.out.println("Id doesn't exist");
 	}
 
-	private void interactDevice(UI ui, Data data)
+	private void editModel(UI ui, Data data)
 	{
-		System.out.print("Decice ID: ");
+		int id = askDeviceId();
 
-		int id = 0;
-		try
+		if (data.devices.containsKey(id))
 		{
-			id = UI.scanner.nextInt();
+			Device device = data.devices.get(id);
+			System.out.print("New model: ");
+			String model = UI.scanner.next();
+
+			try
+			{
+				device.setModel(model);
+			}
+			catch (Exception e)
+			{
+				System.out.println("Device with the same brand, model and serial number already exist");
+			}
 		}
-		catch (Exception e)
+		else
+			System.out.println("Id doesn't exist");
+	}
+
+	private void editSerialNumber(UI ui, Data data)
+	{
+		int id = askDeviceId();
+
+		if (data.devices.containsKey(id))
 		{
-			System.out.println("Number please.");
+			Device device = data.devices.get(id);
+			System.out.print("New serial number: ");
+			String serialNumber = UI.scanner.next();
+			try
+			{
+				device.setSerialNumber(serialNumber);
+			}
+			catch (Exception e)
+			{
+				System.out.println("Device with the same brand, model and serial number already exist");
+			}
 		}
-		Device device = data.devices.get(id);
-			
-		System.out.println("Possible Action: ");
-		System.out.println("-TurnOn(ALL)\n-TurnOff(ALL)\n-Ring(Phone)\n-Print(Printer)\n-AddPaper(Printer)");
-		System.out.print("What action to you want to do ? ");
+		else
+			System.out.println("Id doesn't exist");
+	}
 
-		String action = UI.scanner.next();
+	private void editPower(UI ui, Data data)
+	{
+		int id = askDeviceId();
 
-		switch (action.toLowerCase())
+		if (data.devices.containsKey(id))
 		{
-			case "turnon":
+			Device device = data.devices.get(id);
+			System.out.print("New power: ");
+			try
+			{
+				int power = UI.scanner.nextInt();
+				device.setPower(power);
+			}
+			catch (Exception e)
+			{
+				System.out.println("Number please.");
+			}
+		}
+		else
+			System.out.println("Id doesn't exist");
+	}
 
-				if (device instanceof data.Pc)
-				{
-					data.Pc pc = (data.Pc)device;
-					pc.turnOn();
-				}
-				else if (device instanceof data.Phone)
-				{
-					data.Phone phone = (data.Phone)device;
-					phone.turnOn();
-				}
-				else if (device instanceof data.Printer)
-				{
-					data.Printer printer = (data.Printer)device;
-					printer.turnOn();
-				}
+	private void editRoom(UI ui, Data data)
+	{
+		int id = askDeviceId();
 
-				break;
-		
-			case "turnoff":
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			System.out.print("New location: ");
+			String locationName = UI.scanner.next();
+			while (!data.rooms.containsKey(locationName))
+			{
+				System.out.print("New location: ");
+				locationName = UI.scanner.next();
+			}
+			Room newLocation = data.rooms.get(locationName);
+			device.setLocation(newLocation);
+		}
+	}
 
-				if (device instanceof data.Pc)
-				{
-					data.Pc pc = (data.Pc)device;
-					pc.turnOff();
-				}
-				else if (device instanceof data.Phone)
-				{
-					data.Phone phone = (data.Phone)device;
-					phone.turnOff();
-				}
-				else if (device instanceof data.Printer)
-				{
-					data.Printer printer = (data.Printer)device;
-					printer.turnOff();
-				}
-				
-				break;
-			
-			case "ring":
+	private void editNetwork(UI ui, Data data)
+	{
+		int id = askDeviceId();
 
-				if (device instanceof data.Phone)
-				{
-					data.Phone phone = (data.Phone)device;
-					phone.ring();
-				}
-				else
-					System.out.println("Ring action is only for Phone devices");
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			System.out.print("New network: ");
+			String networkName = UI.scanner.next();
+			while (!data.networks.containsKey(networkName))
+			{
+				System.out.print("New network: ");
+				networkName = UI.scanner.next();
+			}
+			Network newNetwork = data.networks.get(networkName);
+			device.setNetwork(newNetwork);
+		}
+		else
+			System.out.println("Id doesn't exist");
+	}
 
-				break;
+	private void editOs(UI ui, Data data)
+	{
+		int id = askDeviceId();
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			if (device instanceof data.Pc)
+			{
+				data.Pc pc = (data.Pc)device;
+				System.out.print("new os (Linux / Windows): ");
+				String osName = UI.scanner.next();
 
-			case "print":
-
-				if (device instanceof data.Printer)
-				{
-					data.Printer printer = (data.Printer)device;
-
-					String thxJava = UI.scanner.nextLine(); // remove \n from previous scanner.next() because java ...
-					System.out.println("Text to print: ");
-					String textToPrint = UI.scanner.nextLine();
-					printer.print(textToPrint);
-				}
-				else
-					System.out.println("Print action is only for Printer devices");
-
-				break;
-
-			case "addpaper":
-
-				if (device instanceof data.Printer)
-				{
-					data.Printer printer = (data.Printer)device;
-		
-					System.out.println("Paper to add: ");
-					int paperToAdd = 0;
-					try
-					{
-						paperToAdd = UI.scanner.nextInt();
-					}
-					catch (Exception e)
-					{
-						System.out.println("Number please.");
-					}
-					printer.addPaper(paperToAdd);
-				}
-				else
-				System.out.println("Ring action is only for Phone devices");
-
-				break;
-
-			default:
-
-				System.out.println("Invalide action");
+				Os os;
+				if (osName.toLowerCase().equals("linux"))
+					os = Os.Linux;
 	
-				break;
+				else
+					os = Os.Windows;
+
+				pc.setOs(os);
+			}
+			else
+				System.out.println("Only pc device have an os properties.");
 		}
+		else
+			System.out.println("Id doesn't exist");
+	}
+
+	private void editRam(UI ui, Data data)
+	{
+		int id = askDeviceId();
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			if (device instanceof data.Pc)
+			{
+				data.Pc pc = (data.Pc)device;
+				System.out.print("new ram: ");
+				int ram = 1024;
+				try
+				{
+					ram = UI.scanner.nextInt();
+				}
+				catch (Exception e)
+				{
+					System.out.println("Not a number defaulting to 1024MB of ram.");
+				}
+				pc.setRam(ram);
+			}
+			else
+				System.out.println("Only pc device have a ram properties.");
+		}
+		else
+			System.out.println("Id doesn't exist");
+	}
+
+	private void editNumber(UI ui, Data data)
+	{
+		int id = askDeviceId();
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			if (device instanceof data.Phone)
+			{
+				data.Phone phone = (data.Phone)device;
+				System.out.print("new number: ");
+				String number = UI.scanner.next();
+	
+				phone.setNumber(number);
+			}
+			else
+				System.out.println("Only phone device have a phone_number properties.");
+		}
+		else
+			System.out.println("Id doesn't exist");
+	}
+
+	private void DevicePowerSwitch(UI ui, Data data)
+	{
+		int id = askDeviceId();
+
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+
+			if (device instanceof data.Pc)
+			{
+				data.Pc pc = (data.Pc)device;
+				pc.powerSwitch();;
+			}
+			else if (device instanceof data.Phone)
+			{
+				data.Phone phone = (data.Phone)device;
+				phone.powerSwitch();;
+			}
+			else if (device instanceof data.Printer)
+			{
+				data.Printer printer = (data.Printer)device;
+				printer.powerSwitch();;
+			}
+		}
+		else
+			System.out.println("Id doesn't exist");
+	}
+
+	private void RoomPowerOff(UI ui, Data data)
+	{
+		int id = askDeviceId();
+
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			if (device instanceof data.Pc)
+			{
+				data.Pc pc = (data.Pc)device;
+				Room locate = pc.getLocation();
+				locate.Switcher();
+			}
+			else if (device instanceof data.Phone)
+			{
+				data.Phone phone = (data.Phone)device;
+				Room locate = phone.getLocation();
+				locate.Switcher();
+			}
+			else if (device instanceof data.Printer)
+			{
+				data.Printer printer = (data.Printer)device;
+				Room locate = printer.getLocation();
+				locate.Switcher();
+			}
+		}
+		else
+			System.out.println("Id doesn't exist");
+	}
+	
+	private void ring(UI ui, Data data)
+	{
+		int id = askDeviceId();
+
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			if (device instanceof data.Phone)
+			{
+				data.Phone phone = (data.Phone)device;
+				phone.ring();
+			}
+			else
+				System.out.println("Ring action is only for Phone devices");
+		}
+		else
+			System.out.println("Id doesn't exist");
+	}
+
+	private void print(UI ui, Data data)
+	{
+		int id = askDeviceId();
+
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			if (device instanceof data.Printer)
+			{
+				data.Printer printer = (data.Printer)device;
+
+				String thxJava = UI.scanner.nextLine(); // remove \n from previous scanner.next() because java ...
+				System.out.println("Text to print: ");
+				String textToPrint = UI.scanner.nextLine();
+				printer.print(textToPrint);
+			}
+			else
+				System.out.println("Print action is only for Printer devices");
+		}
+		else
+			System.out.println("Id doesn't exist");
+	}
+
+	private void addPaper(UI ui, Data data)
+	{
+		int id = askDeviceId();
+
+		if (data.devices.containsKey(id))
+		{
+			Device device = data.devices.get(id);
+			if (device instanceof data.Printer)
+			{
+				data.Printer printer = (data.Printer)device;
+				
+				System.out.print("Paper to add: ");
+				int paperToAdd = 0;
+				try
+				{
+					paperToAdd = UI.scanner.nextInt();
+				}
+				catch (Exception e)
+				{
+					System.out.println("Not a number defaulting paper to add to 0.");
+				}
+				printer.addPaper(paperToAdd);
+			}
+			else
+				System.out.println("Ring action is only for Phone devices");
+		}
+		else
+			System.out.println("Id doesn't exist");
 	}
 
 	private void listNetworks(UI ui, Data data)
@@ -546,5 +589,21 @@ public class Manager
 		Room room = data.rooms.get(name);
 		System.out.println(room);
 		room.showRoomDevices();	
+	}
+
+	private int askDeviceId()
+	{
+		System.out.print("Decice ID: ");
+		int id = 0;
+		try
+		{
+			id = UI.scanner.nextInt();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Not a number given defaulting to id 0.");
+		}
+
+		return id;
 	}
 }
