@@ -132,7 +132,7 @@ public class Device
 
     public void turnOn()
     {
-        if (this.location.increaseLoad(this.power))
+        if (!this.isOn && this.location.increaseLoad(this.power))
             this.isOn = true;
 
         else
@@ -141,8 +141,11 @@ public class Device
 
     public void turnOff()
     {
-        this.isOn = false;
-        this.location.decreaseLoad(this.power);
+        if (this.isOn)
+        {
+            this.isOn = false;
+            this.location.decreaseLoad(this.power);
+        }
     }
 
     public void delSelf()

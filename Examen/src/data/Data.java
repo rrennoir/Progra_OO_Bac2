@@ -33,7 +33,7 @@ public class Data
 
 	public void addDevice(Device device)
 	{
-		this.devices.put(Integer.valueOf(device.getId()), device);
+		this.devices.put(device.getId(), device);
 	}
 
 	public void delDevice(int id)
